@@ -3,7 +3,6 @@ import sqlite3
 def connect_db():
     return sqlite3.connect('university.db')
 
-# 1. Добавление нового студента, преподавателя, курса, экзамена и оценки
 def add_student(name, surname, department, date_of_birth):
     conn = connect_db()
     cursor = conn.cursor()
@@ -44,7 +43,6 @@ def add_grade(student_id, exam_id, score):
     conn.commit()
     conn.close()
 
-# 2. Изменение информации о студентах, преподавателях и курсах
 def update_student(student_id, name=None, surname=None, department=None, date_of_birth=None):
     conn = connect_db()
     cursor = conn.cursor()
@@ -83,7 +81,6 @@ def update_course(course_id, title=None, description=None, teacher_id=None):
     conn.commit()
     conn.close()
 
-# 3. Удаление студентов, преподавателей, курсов и экзаменов
 def delete_student(student_id):
     conn = connect_db()
     cursor = conn.cursor()
@@ -111,8 +108,6 @@ def delete_exam(exam_id):
     cursor.execute('DELETE FROM Exams WHERE ID = ?', (exam_id,))
     conn.commit()
     conn.close()
-
-# 4. Получение списка студентов по факультету
 def get_students_by_department(department):
     conn = connect_db()
     cursor = conn.cursor()
@@ -120,8 +115,6 @@ def get_students_by_department(department):
     students = cursor.fetchall()
     conn.close()
     return students
-
-# 5. Получение списка курсов, читаемых определенным преподавателем
 def get_courses_by_teacher(teacher_id):
     conn = connect_db()
     cursor = conn.cursor()
@@ -130,7 +123,6 @@ def get_courses_by_teacher(teacher_id):
     conn.close()
     return courses
 
-# 6. Получение списка студентов, зачисленных на конкретный курс
 def get_students_by_course(course_id):
     conn = connect_db()
     cursor = conn.cursor()
@@ -145,7 +137,6 @@ def get_students_by_course(course_id):
     conn.close()
     return students
 
-# 7. Получение оценок студентов по определенному курсу
 def get_grades_by_course(course_id):
     conn = connect_db()
     cursor = conn.cursor()
@@ -160,7 +151,6 @@ def get_grades_by_course(course_id):
     conn.close()
     return grades
 
-# 8. Средний балл студента по определенному курсу
 def get_average_score_by_student_and_course(student_id, course_id):
     conn = connect_db()
     cursor = conn.cursor()
@@ -179,7 +169,6 @@ def get_average_score_by_student_and_course(student_id, course_id):
     
     return average_score
 
-# 9. Средний балл студента в целом
 def get_average_score_by_student(student_id):
     conn = connect_db()
     cursor = conn.cursor()
@@ -197,7 +186,6 @@ def get_average_score_by_student(student_id):
 
     return average_score
 
-# 10. Средний балл по факультету
 def get_average_score_by_department(department):
     conn = connect_db()
     cursor = conn.cursor()
