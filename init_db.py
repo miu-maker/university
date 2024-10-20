@@ -1,12 +1,12 @@
 import sqlite3
 
-# Подключение к базе данных (если базы данных нет, она будет создана)
+
 conn = sqlite3.connect('university.db')
 
-# Создание объекта курсора
+
 cursor = conn.cursor()
 
-# Создание таблицы студентов
+
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS Students (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Students (
 );
 ''')
 
-# Создание таблицы преподавателей
+
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS Teachers (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS Teachers (
 );
 ''')
 
-# Создание таблицы курсов
+
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS Courses (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Courses (
 );
 ''')
 
-# Создание таблицы экзаменов
+
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS Exams (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS Exams (
 );
 ''')
 
-# Создание таблицы оценок
+
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS Grades (
     ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS Grades (
 );
 ''')
 
-# Сохранение изменений и закрытие соединения
+
 conn.commit()
 conn.close()
 
