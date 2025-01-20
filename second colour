@@ -1,0 +1,66 @@
+import sys
+import random
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget
+from PyQt5.QtCore import QTimer, QPropertyAnimation, QRect
+
+class MovingButton(QPushButton):
+    def __init__(self, name, color):
+        super().__init__(name)
+        self.setFixedSize(100, 50)
+        self.setStyleSheet(f"background-color: {color};")
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Moving Buttons")
+        self.setFixedSize(800, 600)
+
+        self.target_button = MovingButton("Target", "blue")
+        self.chaser_button = MovingButton("Chaser", "yellow")
+
+        self.place_buttons_randomly()
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.target_button)
+        layout.addWidget(self.chaser_button)
+
+        container = QWidget()
+        container.setLayout(layout)
+        self.setCentralWidget(container)
+
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.move_chaser)
+        self.timer.start(50)  # Move chaser every 50 milliseconds
+
+    def place_buttons_randomly(self):
+        window_size = self.size()
+        button_size = self.target_button.size()
+
+        random_x = random.randint(0, window_size.width() - button_size.width())
+        random_y = random.randint(0, window_size.height() - button_size.height())
+        self.target_button.move(random_x, random_y)
+
+        random_x = random.randint(0, window_size.width() - button_size.width())
+        random_y = random.randint(0, window_size.height() - button_size.height())
+        self.chaser_button.move(random_x, random_y)
+
+    def move_chaser(self):
+        target_pos = self.target_button.pos()
+        chaser_pos = self.chaser_button.pos()
+
+        if self.target_button.geometry().intersects(self.chaser_button.geometry()):
+            self.place_buttons_randomly()
+        else:
+            self.animate_chaser(target_pos)
+
+    def animate_chaser(self, target_pos):
+        animation = QPropertyAnimation(self.chaser_button, b"pos")
+        animation.setDuration(500)  # Duration of the animation in milliseconds
+        animation.setEndValue(target_pos)
+        animation.start()
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    main_window = MainWindow()
+    main_window.show()
+    sys.exit(app.exec_())
