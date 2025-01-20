@@ -1,0 +1,42 @@
+import sys
+import random
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget
+from PyQt5.QtCore import Qt, QRect, QPoint
+
+class EscapingButton(QPushButton):
+    def __init__(self, name):
+        super().__init__(name)
+        self.setFixedSize(100, 50)
+
+    def enterEvent(self, event):
+        # Получаем размеры окна
+        window_size = self.parent().size()
+        button_size = self.size()
+
+        # Вычисляем случайные координаты для перемещения кнопки
+        random_x = random.randint(0, window_size.width() - button_size.width())
+        random_y = random.randint(0, window_size.height() - button_size.height())
+
+        # Перемещаем кнопку на новые координаты
+        self.move(random_x, random_y)
+
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.setWindowTitle("Escaping Button")
+        self.setFixedSize(800, 600)
+
+        self.button = EscapingButton("Click Me!")
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.button)
+
+        container = QWidget()
+        container.setLayout(layout)
+        self.setCentralWidget(container)
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    main_window = MainWindow()
+    main_window.show()
+    sys.exit(app.exec_())
